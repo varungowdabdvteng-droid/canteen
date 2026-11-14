@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}College Canteen{% endblock %}</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head><body>
+<nav>
+  <a class="brand" href="{{ url_for('index') }}"><i class="fa-solid fa-utensils"></i> Canteen</a>
+  <div class="links">
+  {% if session.role == 'student' %}
+    <a href="{{ url_for('menu') }}">Menu</a>
+    <a href="{{ url_for('cart') }}"><i class="fa-solid fa-cart-shopping"></i> Cart ({{ cart_count }})</a>
+    <a href="{{ url_for('my_orders') }}">My Orders</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  {% elif session.role == 'admin' %}
+    <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('admin_foods') }}">Food Items</a>
+    <a href="{{ url_for('admin_orders') }}">Orders</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  {% else %}
+    <a href="{{ url_for('login') }}">Student Login</a>
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('admin_login') }}">Admin</a>
+  {% endif %}
+  </div>
+</nav>
+<main>
+  {% for m in get_flashed_messages() %}<div class="flash">{{ m }}</div>{% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body></html>

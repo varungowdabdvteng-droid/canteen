@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Welcome, {{ session.name }}! 👋</h2>
+<p>What would you like to eat today?</p>
+<form class="search" method="get">
+  <input name="q" value="{{ q }}" placeholder="Search food...">
+  <select name="category">
+    <option value="">All Categories</option>
+    {% for c in categories %}<option {{ 'selected' if c == cat }}>{{ c }}</option>{% endfor %}
+  </select>
+  <button class="btn"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+</form>
+<div class="grid">
+{% for f in foods %}
+  <div class="card">
+    {% if f.image %}<img src="{{ url_for('static', filename='images/' + f.image) }}" alt="{{ f.food_name }}">
+    {% else %}<div class="noimg"><i class="fa-solid fa-utensils fa-3x"></i></div>{% endif %}
+    <h3>{{ f.food_name }}</h3>
+    <span class="tag">{{ f.category }}</span>
+    <p>{{ f.description }}</p>
+    <p class="price">₹{{ '%.2f'|format(f.price) }}</p>
+    {% if f.availability == 'Available' %}
+    <form method="post" action="{{ url_for('add_to_cart', food_id=f.food_id) }}">
+      <button class="btn full"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button></form>
+    {% else %}<button class="btn full disabled" disabled>Out of Stock</button>{% endif %}
+  </div>
+{% else %}<p>No items found.</p>{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2><i class="fa-solid fa-cart-shopping"></i> Your Cart</h2>
+{% if items %}
+<table>
+  <tr><th>Item</th><th>Price</th><th>Quantity</th><th>Subtotal</th><th></th></tr>
+  {% for i in items %}
+  <tr>
+    <td>{{ i.food.food_name }}{% if i.food.availability != 'Available' %} <b class="red">(Out of Stock)</b>{% endif %}</td>
+    <td>₹{{ i.food.price }}</td>
+    <td>
+      <form class="inline" method="post" action="{{ url_for('update_cart', food_id=i.food.food_id, action='dec') }}"><button class="sm">−</button></form>
+      {{ i.qty }}
+      <form class="inline" method="post" action="{{ url_for('update_cart', food_id=i.food.food_id, action='inc') }}"><button class="sm">+</button></form>
+    </td>
+    <td>₹{{ '%.2f'|format(i.sub) }}</td>
+    <td><form method="post" action="{{ url_for('update_cart', food_id=i.food.food_id, action='remove') }}"><button class="sm red-btn"><i class="fa-solid fa-trash"></i></button></form></td>
+  </tr>
+  {% endfor %}
+  <tr><th colspan="3" class="right">Total</th><th colspan="2">₹{{ '%.2f'|format(total) }}</th></tr>
+</table>
+<form class="card form" method="post" action="{{ url_for('checkout') }}">
+  <label>Preferred pickup time</label>
+  <input type="time" name="pickup_time" required>
+  <button class="btn">Place Order</button>
+</form>
+{% else %}
+<p>Your cart is empty. <a href="{{ url_for('menu') }}">Browse the menu</a></p>
+{% endif %}
+{% endblock %}

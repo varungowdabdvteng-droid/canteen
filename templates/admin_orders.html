@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Manage Orders</h2>
+{% for o, items in orders %}
+<div class="card wide">
+  <b>Order #{{ o.order_id }}</b> &bull; {{ o.name }} ({{ o.email }}) &bull; {{ o.created_at }}<br>
+  Pickup: <b>{{ o.pickup_time }}</b> &bull; Total: <b>₹{{ '%.2f'|format(o.total_amount) }}</b> &bull;
+  Status: <span class="badge {{ 'bad' if o.order_status == 'Rejected' }}">{{ o.order_status }}</span>
+  <ul>{% for i in items %}<li>{{ i.food_name }} × {{ i.quantity }} (₹{{ i.price }} each)</li>{% endfor %}</ul>
+  <form method="post" action="{{ url_for('update_status', order_id=o.order_id) }}" class="inline">
+    <select name="status">
+      {% for s in statuses + ['Rejected'] %}<option {{ 'selected' if s == o.order_status }}>{{ s }}</option>{% endfor %}
+    </select>
+    <button class="btn sm">Update</button>
+  </form>
+  {% if o.order_status == 'Pending' %}
+  <form method="post" action="{{ url_for('update_status', order_id=o.order_id) }}" class="inline">
+    <input type="hidden" name="status" value="Accepted"><button class="sm green-btn">Accept</button></form>
+  <form method="post" action="{{ url_for('update_status', order_id=o.order_id) }}" class="inline">
+    <input type="hidden" name="status" value="Rejected"><button class="sm red-btn">Reject</button></form>
+  {% endif %}
+</div>
+{% else %}<p>No orders yet.</p>{% endfor %}
+{% endblock %}

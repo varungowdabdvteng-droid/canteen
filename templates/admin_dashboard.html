@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Admin Dashboard</h2>
+<div class="grid three">
+  <div class="card center"><h1>{{ stats.total }}</h1><p>Total Orders</p></div>
+  <div class="card center"><h1>{{ stats.pending }}</h1><p>Pending Orders</p></div>
+  <div class="card center"><h1>{{ stats.foods }}</h1><p>Available Food Items</p></div>
+</div>
+<a class="btn" href="{{ url_for('admin_orders') }}">Manage Orders</a>
+<a class="btn alt" href="{{ url_for('admin_foods') }}">Manage Food Items</a>
+{% endblock %}

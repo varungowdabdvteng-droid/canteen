@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="card form" method="post">
+  <h2>Student Registration</h2>
+  <input name="name" placeholder="Full name" required>
+  <input type="email" name="email" placeholder="Email" required>
+  <input type="password" name="password" placeholder="Password (min 6 chars)" required>
+  <button class="btn">Register</button>
+  <p>Already registered? <a href="{{ url_for('login') }}">Login</a></p>
+</form>
+{% endblock %}

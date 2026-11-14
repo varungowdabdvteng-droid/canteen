@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card form center">
+  <i class="fa-solid fa-circle-check fa-3x green"></i>
+  <h2>Order Placed!</h2>
+  <p>Order #{{ order.order_id }} &bull; Pickup at <b>{{ order.pickup_time }}</b></p>
+  <ul class="plain">{% for i in items %}<li>{{ i.food_name }} × {{ i.quantity }} — ₹{{ i.price * i.quantity }}</li>{% endfor %}</ul>
+  <h3>Total: ₹{{ '%.2f'|format(order.total_amount) }}</h3>
+  <p>Status: <span class="badge">{{ order.order_status }}</span></p>
+  <a class="btn" href="{{ url_for('my_orders') }}">Track My Orders</a>
+</div>
+{% endblock %}

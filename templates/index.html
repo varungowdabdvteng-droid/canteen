@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1><i class="fa-solid fa-bowl-food"></i> College Canteen Pre-Ordering</h1>
+  <p>Order in advance, pick a time, and collect your food without standing in queues.</p>
+  <a class="btn" href="{{ url_for('login') }}">Student Login</a>
+  <a class="btn alt" href="{{ url_for('register') }}">Register</a>
+</section>
+<div class="grid three">
+  <div class="card center"><i class="fa-solid fa-magnifying-glass fa-2x"></i><h3>Browse</h3><p>Search and filter the menu.</p></div>
+  <div class="card center"><i class="fa-solid fa-clock fa-2x"></i><h3>Choose Pickup Time</h3><p>Order ahead of your break.</p></div>
+  <div class="card center"><i class="fa-solid fa-bag-shopping fa-2x"></i><h3>Collect</h3><p>Track status until it's ready.</p></div>
+</div>
+{% endblock %}

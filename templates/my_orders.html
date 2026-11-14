@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Orders</h2>
+{% for o, items in orders %}
+<div class="card wide">
+  <b>Order #{{ o.order_id }}</b> &bull; {{ o.created_at }} &bull; Pickup: {{ o.pickup_time }} &bull; ₹{{ '%.2f'|format(o.total_amount) }}
+  <p>{% for i in items %}{{ i.food_name }} × {{ i.quantity }}{{ ', ' if not loop.last }}{% endfor %}</p>
+  {% if o.order_status == 'Rejected' %}
+    <span class="badge bad">Rejected by canteen</span>
+  {% else %}
+    {% set idx = statuses.index(o.order_status) %}
+    <div class="steps">
+      {% for s in statuses %}<div class="step {{ 'done' if loop.index0 <= idx }}">{{ s }}</div>{% endfor %}
+    </div>
+  {% endif %}
+</div>
+{% else %}<p>No orders yet.</p>{% endfor %}
+<script>setTimeout(() => location.reload(), 30000);</script>
+{% endblock %}
